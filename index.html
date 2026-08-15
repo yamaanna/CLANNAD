@@ -1,159 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta content="yes" name="apple-mobile-web-app-capable"/>
-    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta content="false" name="twcClient" id="twcClient"/>
-    <title>资源库</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vposy软件</title>
     <style>
-        /* 微信提示样式 */
-        .weixin-tip {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            background: #f5f7fa;
+            color: #333;
+        }
+        .page-title {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        /* 侧边栏 */
+        .sidebar {
+            width: 180px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px 0;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .sidebar-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .sidebar-item.active {
+            background: #e8f3ff;
+            color: #1677ff;
+            font-weight: 500;
+        }
+        .sidebar-item:hover {
+            background: #f0f5ff;
+        }
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+        }
+        .category-section {
             display: none;
+        }
+        .category-section.active {
+            display: block;
+        }
+        .category-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .category-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .category-desc {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        /* 软件网格 */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        .software-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .software-item:hover {
+            border-color: #1677ff;
+        }
+        .software-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .software-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+        .software-name {
+            font-size: 14px;
+        }
+        .download-btn {
+            padding: 6px 12px;
+            background: #f0f2f5;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+        .download-btn:hover {
+            background: #e5e7eb;
+        }
+        /* 右侧悬浮按钮 */
+        .float-buttons {
             position: fixed;
-            left: 0;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .float-btn {
+            width: 50px;
+            padding: 8px 0;
+            background: #1677ff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            line-height: 1.2;
+        }
+        /* 下载弹窗 */
+        .modal-mask {
+            position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            z-index: 1999;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
         }
-        .weixin-tip .top-bar-guidance {
-            font-size: 15px;
-            color: #fff;
-            height: 40%;
-            line-height: 1.8;
-            padding-left: 20px;
-            padding-top: 20px;
-            background: url(//gw.alicdn.com/tfs/TB1eSZaNFXXXXb.XXXXXXXXXXXX-750-234.png) center top/contain no-repeat;
+        .modal-mask.show {
+            display: flex;
         }
-        .weixin-tip .top-bar-guidance .icon-safari {
-            width: 25px;
-            height: 25px;
-            vertical-align: middle;
-            margin: 0 .2em;
+        .modal {
+            background: #fff;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+            padding: 25px;
+            position: relative;
         }
-        .weixin-tip .app-download-btn {
-            display: block;
-            width: 214px;
-            height: 40px;
-            line-height: 40px;
-            margin: 18px auto 0 auto;
-            text-align: center;
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-title {
             font-size: 18px;
-            color: #2466f4;
-            border-radius: 20px;
-            border: .5px #2466f4 solid;
-            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .pan-list {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+        .pan-item {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .pan-item:hover {
+            background: #f5f7fa;
+        }
+        .pan-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+        }
+        .pan-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .pan-code {
+            font-size: 12px;
+            color: #666;
+        }
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            .sidebar-item {
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 微信提示界面 -->
-    <div class="weixin-tip">
-        <div class="top-bar-guidance">
-            <p>点击右上角<img src="//gw.alicdn.com/tfs/TB1xwiUNpXXXXaIXXXXXXXXXXXX-55-55.png" class="icon-safari"/>在浏览器打开</p>
-            <p>可以继续访问本站哦~</p>
-        </div>        
-    </div>
+    <h1 class="page-title">vposy软件</h1>
 
-    <div class="wrapper">
-        <div id="bubbles-container">
-            <!-- 气泡将通过 JavaScript 动态生成 -->
+    <div class="container">
+        <!-- 左侧分类栏 -->
+        <div class="sidebar">
+            <div class="sidebar-item active" data-cate="adobe">Adobe系列</div>
+            <div class="sidebar-item" data-cate="office">办公软件</div>
+            <div class="sidebar-item" data-cate="os">操作系统</div>
+            <div class="sidebar-item" data-cate="design">辅助设计</div>
+            <div class="sidebar-item" data-cate="browser">浏览器</div>
+            <div class="sidebar-item" data-cate="tool">常用工具</div>
         </div>
-    </div>
-    <div id="loading-overlay" class="loading-overlay">
-        <div class="loading-spinner"></div>
-        <div id="loading-text">正在加载数据...</div>
-    </div>
-    
-    <div class="content">
-        <h1>资源库</h1>
-        <h2>数据源: <a href="https://panhub.fun/" target="_blank">https://panhub.fun/</a></h2> 
-        <div class="filters">
-            <button onclick="filterSelection('all')" class="active">全部</button>
-            <button onclick="filterSelection('1')">短剧</button>
-            <button onclick="filterSelection('11')">学习</button>
-            <button onclick="filterSelection('8')">游戏</button>
-            <button onclick="filterSelection('9')">软件</button>
-        </div>
-        <input type="text" id="search-input" placeholder="搜索资源" oninput="searchTable()">
-        <div class="action-buttons">
-            <button onclick="downloadData()">下载数据表</button>
-            <button onclick="downloadLinks()">仅下载链接</button>
-            <span id="data-count">已加载数据：0</span> <!-- 用于动态显示数据数量 -->
-            <div class="items-per-page">
-                <label for="items-per-page-select">每页显示:</label>
-                <select id="items-per-page-select">
-                    <option value="6">6</option>
-                    <option value="15" selected>15</option>
-                    <option value="21">21</option>
-                    <option value="30">30</option>
-                </select>
+
+        <!-- 右侧内容区 -->
+        <div class="main-content">
+            <!-- Adobe系列 -->
+            <div class="category-section active" id="cate-adobe">
+                <div class="category-card">
+                    <h2 class="category-title">Adobe系列</h2>
+                    <p class="category-desc">Adobe系列软件下载，免激活处理，去试用弹窗，多国语言完整版</p>
+                    <div class="software-grid">
+                        <!-- 软件卡片模板：复制这段改内容即可新增 -->
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff0000;">A</div>
+                                <span class="software-name">Adobe全家桶</span>
+                            </div>
+                            <!-- data-pan格式：网盘名#链接#提取码|网盘名#链接#提取码 -->
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无|迅雷云盘#https://pan.xunlei.com/xxx#无|夸克网盘#https://pan.quark.cn/xxx#无">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff0000;">A</div>
+                                <span class="software-name">MAC版全家桶</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#abcd|123云盘#https://www.123pan.com/xxx#无|迅雷云盘#https://pan.xunlei.com/xxx#无|夸克网盘#https://pan.quark.cn/xxx#无">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff0000;">A</div>
+                                <span class="software-name">Acrobat系列</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无|迅雷云盘#https://pan.xunlei.com/xxx#无|夸克网盘#https://pan.quark.cn/xxx#无">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff0000;">A</div>
+                                <span class="software-name">Adobe大师版</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无|迅雷云盘#https://pan.xunlei.com/xxx#无|夸克网盘#https://pan.quark.cn/xxx#无">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff0000;">A</div>
+                                <span class="software-name">Adobe绿色版</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无|迅雷云盘#https://pan.xunlei.com/xxx#无|夸克网盘#https://pan.quark.cn/xxx#无">下载</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 办公软件 -->
+            <div class="category-section" id="cate-office">
+                <div class="category-card">
+                    <h2 class="category-title">办公软件</h2>
+                    <p class="category-desc">常用办公软件，生产力工具</p>
+                    <div class="software-grid">
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#eb3c00;">O</div>
+                                <span class="software-name">office</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#ff5a00;">W</div>
+                                <span class="software-name">WPS</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234|123云盘#https://www.123pan.com/xxx#无">下载</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作系统 -->
+            <div class="category-section" id="cate-os">
+                <div class="category-card">
+                    <h2 class="category-title">操作系统</h2>
+                    <p class="category-desc">超纯净原版系统，采用MSDN原版系统进行防流氓模式封装制作，无捆绑无广告</p>
+                    <div class="software-grid">
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#0078d7;">⊞</div>
+                                <span class="software-name">Win11</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#0078d7;">⊞</div>
+                                <span class="software-name">Win10</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#0078d7;">⊞</div>
+                                <span class="software-name">Win7</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">下载</button>
+                        </div>
+                        <div class="software-item">
+                            <div class="software-info">
+                                <div class="software-icon" style="background:#0078d7;">K</div>
+                                <span class="software-name">KMS工具</span>
+                            </div>
+                            <button class="download-btn" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">下载</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 辅助设计 -->
+            <div class="category-section" id="cate-design">
+                <div class="category-card">
+                    <h2 class="category-title">辅助设计</h2>
+                    <p class="category-desc">设计类工具软件</p>
+                    <div class="software-grid">
+                        <!-- 在这里复制软件卡片模板添加内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 浏览器 -->
+            <div class="category-section" id="cate-browser">
+                <div class="category-card">
+                    <h2 class="category-title">浏览器</h2>
+                    <p class="category-desc">各类浏览器软件</p>
+                    <div class="software-grid">
+                        <!-- 在这里复制软件卡片模板添加内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常用工具 -->
+            <div class="category-section" id="cate-tool">
+                <div class="category-card">
+                    <h2 class="category-title">常用工具</h2>
+                    <p class="category-desc">实用小工具合集</p>
+                    <div class="software-grid">
+                        <!-- 在这里复制软件卡片模板添加内容 -->
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="resource-list" class="resource-list">
-            <!-- 资源卡片将通过 JavaScript 动态生成 -->
-        </div>
-        <div class="pagination" id="pagination">
-            <!-- 分页按钮将通过 JavaScript 动态生成 -->
-        </div>
     </div>
-    <script src="scripts.js"></script>
+
+    <!-- 右侧悬浮按钮 -->
+    <div class="float-buttons">
+        <button class="float-btn">赞赏<br>支持</button>
+        <button class="float-btn">关注<br>我们</button>
+    </div>
+
+    <!-- 下载弹窗 -->
+    <div class="modal-mask" id="downloadModal">
+        <div class="modal">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <h3 class="modal-title" id="modalTitle">软件 下载方式</h3>
+            <div class="pan-list" id="panList"></div>
+        </div>
     </div>
 
     <script>
-        document.querySelector('body').addEventListener('touchmove', function (event) {
-            event.preventDefault();
+        // 分类切换
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const categorySections = document.querySelectorAll('.category-section');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                categorySections.forEach(s => s.classList.remove('active'));
+                item.classList.add('active');
+                document.getElementById('cate-' + item.dataset.cate).classList.add('active');
+            });
         });
 
-        window.mobileUtil = (function(win, doc) {
-            var UA = navigator.userAgent,
-            isAndroid = /android|adr/gi.test(UA),
-            isIOS = /iphone|ipod|ipad/gi.test(UA) && !isAndroid,
-            isBlackBerry = /BlackBerry/i.test(UA),
-            isWindowPhone = /IEMobile/i.test(UA),
-            isMobile = isAndroid || isIOS || isBlackBerry || isWindowPhone;
-            return {
-                isAndroid: isAndroid,
-                isIOS: isIOS,
-                isMobile: isMobile,
-                isWeixin: /MicroMessenger/gi.test(UA),
-                isQQ: /QQ/gi.test(UA)
-            };
-        })(window, document);
+        // 下载弹窗逻辑
+        const modal = document.getElementById('downloadModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const panList = document.getElementById('panList');
+        const panColors = {
+            '百度网盘': '#29b6f6',
+            '123云盘': '#409eff',
+            '迅雷云盘': '#3b82f6',
+            '夸克网盘': '#1677ff'
+        };
 
-        if(mobileUtil.isWeixin){
-            // 隐藏主要内容
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.weixin-tip').style.display = 'block';
-            
-            var url = window.location.href; // 默认使用当前页面的网址
-            
-            if(mobileUtil.isIOS){
-                // iOS设备直接跳转到中转页面
-                document.getElementById('BtnClick').onclick = function() {
-                    window.location.href = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
-                };
-            } else if(mobileUtil.isAndroid){
-                // 安卓设备使用文件下载触发外部浏览器
-                document.getElementById('BtnClick').onclick = function() {
-                    var link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'weixin.doc';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    setTimeout(function() {
-                        window.location.href = url;
-                    }, 500);
-                };
-            }
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const softName = btn.parentElement.querySelector('.software-name').textContent;
+                modalTitle.textContent = softName + ' 下载方式';
+                const panArr = btn.dataset.pan.split('|');
+                panList.innerHTML = '';
+
+                panArr.forEach(pan => {
+                    const [name, url, code] = pan.split('#');
+                    const color = panColors[name] || '#1677ff';
+                    const item = document.createElement('div');
+                    item.className = 'pan-item';
+                    item.onclick = () => window.open(url, '_blank');
+                    item.innerHTML = `
+                        <div class="pan-icon" style="background:${color};">${name.charAt(0)}</div>
+                        <div class="pan-name">${name}</div>
+                        <div class="pan-code">提取码: ${code}</div>
+                    `;
+                    panList.appendChild(item);
+                });
+                modal.classList.add('show');
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('show');
         }
+        modal.addEventListener('click', e => e.target === modal && closeModal());
     </script>
 </body>
 </html>
