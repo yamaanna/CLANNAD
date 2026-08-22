@@ -1440,28 +1440,34 @@ body {
     }
 
     /* ---------- 3-4 左侧导航高亮 ---------- */
-function updateNavHighlight() {
-    if (!sidebar || categoryBlocks.length === 0) return;
+function updateActiveNav() {
+            const scrollPos = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const pageHeight = document.body.scrollHeight;
+            let current = '';
 
-    // 判定线位置：距离视口顶部100px，和顶部固定标题栏高度对齐
-    const viewLine = 100;
-    let activeIndex = 0;
+            // 滚到页面底部时，强制高亮最后一个分类
+            if (scrollPos + windowHeight >= pageHeight - 20) {
+                current = cateSections[cateSections.length - 1].id.replace('cate-', '');
+            } else {
+                // 正常判断当前可视区域
+                cateSections.forEach(section => {
+                    if (scrollPos >= section.offsetTop - headerHeight - 50) {
+                        current = section.id.replace('cate-', '');
+                    }
+                });
+            }
 
-    // 遍历所有区块，找到被判定线穿过的那一个
-    categoryBlocks.forEach((block, index) => {
-        const rect = block.getBoundingClientRect();
-        // 区块顶部在判定线上方，且区块底部在判定线下方
-        // 说明判定线落在当前区块范围内
-        if (rect.top <= viewLine && rect.bottom > viewLine) {
-            activeIndex = index;
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.cate === current) {
+                    item.classList.add('active');
+                }
+            });
         }
-    });
 
-    // 统一更新导航高亮
-    navItems.forEach((item, index) => {
-        item.classList.toggle(config.navActiveClass, index === activeIndex);
-    });
-}
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
 
 
     /* ---------- 3-5 导航点击跳转 ---------- */
