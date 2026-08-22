@@ -1439,28 +1439,26 @@ body {
     }
 
     /* ---------- 3-4 左侧导航高亮 ---------- */
-    function updateNavHighlight() {
-        if (!sidebar || categoryBlocks.length === 0) return;
+function updateNavHighlight() {
+    if (!sidebar || categoryBlocks.length === 0) return;
 
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        let currentIndex = 0;
+    // 记录当前在视口内最靠上的区块索引
+    let currentIndex = 0;
+    const viewportOffset = 120; // 匹配顶部固定栏高度，微调更准
 
-        categoryBlocks.forEach((block, index) => {
-            const blockTop = block.offsetTop - config.scrollOffset;
-            if (scrollTop >= blockTop) {
-                currentIndex = index;
-            }
-        });
+    categoryBlocks.forEach((block, index) => {
+        // 获取元素相对于视口的实时顶部距离
+        const rect = block.getBoundingClientRect();
+        // 元素顶部进入视口上方偏移位置时，判定为当前区块
+        if (rect.top <= viewportOffset) {
+            currentIndex = index;
+        }
+    });
 
-        navItems.forEach((item, index) => {
-            if (index === currentIndex) {
-                item.classList.add(config.navActiveClass);
-            } else {
-                item.classList.remove(config.navActiveClass);
-            }
-        });
-    }
-
+    navItems.forEach((item, index) => {
+        item.classList.toggle(config.navActiveClass, index === currentIndex);
+    });
+}
     /* ---------- 3-5 导航点击跳转 ---------- */
     function initNavClick() {
         navItems.forEach(item => {
@@ -1480,15 +1478,16 @@ body {
     }
 
     /* ---------- 3-6 软件二级折叠菜单 ---------- */
-    function initSoftExpand() {
-        softHeaders.forEach(header => {
-            header.addEventListener("click", () => {
-                const softItem = header.parentElement;
-                softItem.classList.toggle(config.softExpandedClass);
-            });
+function initSoftExpand() {
+    softHeaders.forEach(header => {
+        header.addEventListener("click", (e) => {
+            // 精准找到当前点击的软件卡片，不受层级影响
+            const softItem = e.currentTarget.closest(".soft-item");
+            if (!softItem) return;
+            softItem.classList.toggle(config.softExpandedClass);
         });
-    }
-
+    });
+}
     /* ---------- 3-7 下载弹窗交互 ---------- */
     function initDownloadModal() {
         versionBtns.forEach(btn => {
