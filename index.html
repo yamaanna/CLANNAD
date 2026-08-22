@@ -1440,35 +1440,27 @@ body {
     }
 
     /* ---------- 3-4 左侧导航高亮 ---------- */
-function updateActiveNav() {
-            const scrollPos = window.scrollY;
-            const windowHeight = window.innerHeight;
-            const pageHeight = document.body.scrollHeight;
-            let current = '';
+function updateNavHighlight() {
+    if (!sidebar || categoryBlocks.length === 0) return;
 
-            // 滚到页面底部时，强制高亮最后一个分类
-            if (scrollPos + windowHeight >= pageHeight - 20) {
-                current = cateSections[cateSections.length - 1].id.replace('cate-', '');
-            } else {
-                // 正常判断当前可视区域
-                cateSections.forEach(section => {
-                    if (scrollPos >= section.offsetTop - headerHeight - 50) {
-                        current = section.id.replace('cate-', '');
-                    }
-                });
-            }
+    const scrollPos = window.scrollY;
+    // 顶部固定栏高度，和跳转偏移量保持一致
+    const headerHeight = config.scrollOffset;
+    let currentCate = '';
 
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.dataset.cate === current) {
-                    item.classList.add('active');
-                }
-            });
+    // 遍历所有区块：滚动位置超过区块顶部判定线，就标记为当前分类
+    categoryBlocks.forEach(block => {
+        // -50 是提前量，让标题刚进入视线就高亮，体验更贴合
+        if (scrollPos >= block.offsetTop - headerHeight - 50) {
+            currentCate = block.id.replace('cate-', '');
         }
+    });
 
-        window.addEventListener('scroll', updateActiveNav);
-        updateActiveNav();
-
+    // 统一更新导航高亮状态
+    navItems.forEach(item => {
+        item.classList.toggle(config.navActiveClass, item.dataset.cate === currentCate);
+    });
+}
 
     /* ---------- 3-5 导航点击跳转 ---------- */
     function initNavClick() {
