@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>向日葵软件库</title>
-    <style>
-/* ==================================================
-   【CSS模块1】基础重置与全局变量
-   说明：修改整体配色、默认字体、背景色在这里改
-   ================================================== */
+/* ========== 【1号区：样式配置区 CSS】开始 ========== */
+
+/* ---------- 1-1 全局基础样式 ---------- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft Yahei", sans-serif;
 }
-:root {
-    --primary-color: #1677ff;
-    --bg-color: #f5f7fa;
-    --card-bg: #ffffff;
-    --text-main: #333333;
-    --text-secondary: #666666;
-    --border-color: #e8e8e8;
-}
 body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
+    background-color: #f5f7fa;
+    color: #333;
     line-height: 1.5;
 }
 
-/* ==================================================
-   【CSS模块2】顶部固定标题栏
-   说明：修改标题高度、背景、字号在这里改
-   ================================================== */
+/* ---------- 1-2 核心布局样式 ---------- */
+/* 顶部固定标题栏 */
 .site-title {
     position: fixed;
     top: 0;
@@ -43,15 +25,12 @@ body {
     font-size: 26px;
     font-weight: 500;
     letter-spacing: 1px;
-    background-color: var(--bg-color);
+    background-color: #f5f7fa;
     z-index: 100;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #e8e8e8;
 }
 
-/* ==================================================
-   【CSS模块3】主体容器与布局
-   说明：修改页面最大宽度、内边距在这里改
-   ================================================== */
+/* 主容器 */
 .wrapper {
     max-width: 1400px;
     margin: 0 auto;
@@ -60,14 +39,11 @@ body {
     gap: 24px;
 }
 
-/* ==================================================
-   【CSS模块4】左侧侧边栏导航
-   说明：修改侧边栏宽度、高亮样式、悬停效果在这里改
-   ================================================== */
+/* 左侧侧边栏 */
 .sidebar {
     width: 200px;
     flex-shrink: 0;
-    background: var(--card-bg);
+    background: #fff;
     border-radius: 8px;
     padding: 16px 0;
     position: sticky;
@@ -82,19 +58,16 @@ body {
 }
 .nav-item.active {
     background-color: #f0f5ff;
-    color: var(--primary-color);
+    color: #1677ff;
     font-weight: 500;
-    border-left: 3px solid var(--primary-color);
+    border-left: 3px solid #1677ff;
     padding-left: 21px;
 }
 .nav-item:hover {
     background-color: #f5f7fa;
 }
 
-/* ==================================================
-   【CSS模块5】主内容区通用样式
-   说明：修改卡片内边距、标题大小、描述样式在这里改
-   ================================================== */
+/* ---------- 1-3 主内容区基础样式 ---------- */
 .main {
     flex: 1;
     min-width: 0;
@@ -104,7 +77,7 @@ body {
     scroll-margin-top: 100px;
 }
 .content-card {
-    background: var(--card-bg);
+    background: #fff;
     border-radius: 8px;
     padding: 28px 32px;
 }
@@ -114,30 +87,28 @@ body {
     margin-bottom: 8px;
 }
 .category-desc {
-    color: var(--text-secondary);
+    color: #666;
     font-size: 14px;
     margin-bottom: 24px;
 }
 
-/* ==================================================
-   【CSS模块6】软件卡片与二级版本菜单
-   说明：修改卡片尺寸、图标大小、折叠动画在这里改
-   ================================================== */
+/* ---------- 1-4 软件卡片与二级版本菜单 ---------- */
 .soft-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
 }
 .soft-item {
-    border: 1px solid var(--border-color);
+    border: 1px solid #e8e8e8;
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.2s;
 }
 .soft-item:hover {
-    border-color: var(--primary-color);
+    border-color: #1677ff;
 }
-/* 一级：软件头部 */
+
+/* 软件头部（一级菜单） */
 .soft-header {
     display: flex;
     align-items: center;
@@ -180,17 +151,18 @@ body {
 .soft-item.expanded .arrow {
     transform: rotate(180deg);
 }
-/* 二级：版本列表 */
+
+/* 二级版本列表 */
 .soft-versions {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
     background-color: #fafafa;
-    border-top: 0 solid var(--border-color);
+    border-top: 0 solid #e8e8e8;
 }
 .soft-item.expanded .soft-versions {
-    max-height: 800px;
-    border-top: 1px solid var(--border-color);
+    max-height: 600px;
+    border-top: 1px solid #e8e8e8;
 }
 .version-item {
     display: flex;
@@ -210,17 +182,15 @@ body {
 .version-btn {
     padding: 4px 10px;
     background-color: #e6f4ff;
-    color: var(--primary-color);
+    color: #1677ff;
     border: none;
     border-radius: 4px;
     font-size: 12px;
     cursor: pointer;
 }
 
-/* ==================================================
-   【CSS模块7】右侧悬浮按钮
-   说明：修改悬浮按钮位置、大小、颜色在这里改
-   ================================================== */
+/* ---------- 1-5 公共组件样式 ---------- */
+/* 右侧悬浮按钮 */
 .float-bar {
     position: fixed;
     right: 20px;
@@ -234,7 +204,7 @@ body {
 .float-btn {
     width: 52px;
     padding: 10px 0;
-    background-color: var(--primary-color);
+    background-color: #1677ff;
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -244,10 +214,7 @@ body {
     text-align: center;
 }
 
-/* ==================================================
-   【CSS模块8】下载弹窗
-   说明：修改弹窗大小、网盘样式在这里改
-   ================================================== */
+/* 下载弹窗 */
 .modal-mask {
     position: fixed;
     inset: 0;
@@ -318,10 +285,7 @@ body {
     color: #666;
 }
 
-/* ==================================================
-   【CSS模块9】移动端响应式适配
-   说明：修改手机端布局在这里改
-   ================================================== */
+/* ---------- 1-6 移动端响应式适配 ---------- */
 @media (max-width: 768px) {
     .wrapper {
         flex-direction: column;
@@ -341,7 +305,7 @@ body {
     }
     .nav-item.active {
         border-left: none;
-        border-bottom: 3px solid var(--primary-color);
+        border-bottom: 3px solid #1677ff;
         padding-left: 16px;
     }
     .float-bar {
@@ -351,683 +315,5 @@ body {
         grid-template-columns: 1fr;
     }
 }
-    </style>
-</head>
-<body>
 
-<!-- ==================================================
-     【HTML模块1】顶部标题栏
-     ================================================== -->
-<h1 class="site-title">向日葵软件库</h1>
-
-<!-- ==================================================
-     【HTML模块2】主体容器
-     ================================================== -->
-<div class="wrapper">
-
-    <!-- ==================================================
-         【HTML模块3】左侧侧边栏导航
-         说明：新增/删除分类只需要在这里加一行nav-item
-         ================================================== -->
-    <aside class="sidebar">
-        <div class="nav-item active" data-cate="common">常用软件</div>
-        <div class="nav-item" data-cate="cad">CAD制图</div>
-        <div class="nav-item" data-cate="3d">三维建模</div>
-        <div class="nav-item" data-cate="image">图像设计</div>
-        <div class="nav-item" data-cate="bim">建筑BIM</div>
-        <div class="nav-item" data-cate="video">视频音频</div>
-        <div class="nav-item" data-cate="data">数据分析</div>
-        <div class="nav-item" data-cate="machine">机械工业</div>
-        <div class="nav-item" data-cate="circuit">电子电路</div>
-        <div class="nav-item" data-cate="system">系统工具</div>
-    </aside>
-
-    <!-- ==================================================
-         【HTML模块4】右侧主内容区
-         说明：每个分类是一个独立的section块，单独增删不影响其他
-         ================================================== -->
-    <main class="main">
-
-        <!-- ========== 分类1：常用软件 ========== -->
-        <section class="category-block" id="cate-common">
-            <div class="content-card">
-                <h2 class="category-title">常用软件</h2>
-                <p class="category-desc">日常办公、设计必备基础软件，直装即用</p>
-                <div class="soft-grid">
-                    <!-- Office -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#eb3c00;">O</div>
-                                <span class="soft-name">Office</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Office 2024 专业版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Office 2021 专业版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#abcd">
-                                <span class="version-name">Office 2019 专业版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- WPS -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff5a00;">W</div>
-                                <span class="soft-name">WPS</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">WPS 政府无广告版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">WPS 教育版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Photoshop -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff0000;">A</div>
-                                <span class="soft-name">Photoshop</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Photoshop 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Photoshop 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#abcd">
-                                <span class="version-name">Photoshop 2023</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Premiere -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff0000;">A</div>
-                                <span class="soft-name">Premiere</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Premiere 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Premiere 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- After Effects -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff0000;">A</div>
-                                <span class="soft-name">After Effects</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">After Effects 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">After Effects 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Adobe大师版 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff0000;">A</div>
-                                <span class="soft-name">Adobe大师版</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">大师版 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">大师版 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类2：CAD制图 ========== -->
-        <section class="category-block" id="cate-cad">
-            <div class="content-card">
-                <h2 class="category-title">CAD制图</h2>
-                <p class="category-desc">二维三维绘图设计软件，多行业通用</p>
-                <div class="soft-grid">
-                    <!-- AutoCAD -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#003366;">C</div>
-                                <span class="soft-name">AutoCAD</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">AutoCAD 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">AutoCAD 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#abcd">
-                                <span class="version-name">AutoCAD 2023</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CAD建筑版 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#003366;">C</div>
-                                <span class="soft-name">CAD Architecture</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">CAD建筑版 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">CAD建筑版 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CAD电气版 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#003366;">C</div>
-                                <span class="soft-name">CAD Electrical</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">CAD电气版 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">CAD电气版 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CAD机械版 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#003366;">C</div>
-                                <span class="soft-name">CAD Mechanical</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">CAD机械版 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">CAD机械版 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CAD精简版 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#003366;">C</div>
-                                <span class="soft-name">CAD精简版</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">CAD 2025 精简版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">CAD 2024 精简版</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CAXA电子图板 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#0099cc;">C</div>
-                                <span class="soft-name">CAXA CAD电子图板</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">CAXA 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">CAXA 2023</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类3：三维建模 ========== -->
-        <section class="category-block" id="cate-3d">
-            <div class="content-card">
-                <h2 class="category-title">三维建模</h2>
-                <p class="category-desc">3D建模、渲染、动画制作软件</p>
-                <div class="soft-grid">
-                    <!-- 3ds Max -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#1a73e8;">3</div>
-                                <span class="soft-name">3ds Max</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">3ds Max 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">3ds Max 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- C4D -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#0050c8;">C4</div>
-                                <span class="soft-name">Cinema 4D</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">C4D 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">C4D R25</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Maya -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#1a73e8;">M</div>
-                                <span class="soft-name">Maya</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Maya 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Maya 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 犀牛 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#666;">R</div>
-                                <span class="soft-name">Rhinoceros 犀牛</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Rhino 8.x</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Rhino 7.x</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- SketchUp -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#e60012;">S</div>
-                                <span class="soft-name">SketchUp</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">SketchUp 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">SketchUp 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Blender -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#f5792a;">B</div>
-                                <span class="soft-name">Blender</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Blender 4.x</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Blender 3.x</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类4：图像设计 ========== -->
-        <section class="category-block" id="cate-image">
-            <div class="content-card">
-                <h2 class="category-title">图像设计</h2>
-                <p class="category-desc">图片处理、绘图、数字资产管理软件</p>
-                <div class="soft-grid">
-                    <!-- ACDSee -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#0066cc;">A</div>
-                                <span class="soft-name">ACDSee</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">ACDSee 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">ACDSee 2023</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- SAI -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#ff6699;">S</div>
-                                <span class="soft-name">PaintTool SAI</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">SAI2 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">SAI 1.0</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- SketchBook -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#1677ff;">S</div>
-                                <span class="soft-name">SketchBook</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">SketchBook 2022</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">SketchBook 2021</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类5：建筑BIM ========== -->
-        <section class="category-block" id="cate-bim">
-            <div class="content-card">
-                <h2 class="category-title">建筑BIM</h2>
-                <p class="category-desc">建筑信息模型、工程设计软件</p>
-                <div class="soft-grid">
-                    <!-- Revit -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#0078d7;">R</div>
-                                <span class="soft-name">Revit</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Revit 2025</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Revit 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Civil 3D -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#0078d7;">C</div>
-                                <span class="soft-name">Civil 3D</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Civil 3D 2024</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Civil 3D 2023</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 天正T20 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#009944;">天</div>
-                                <span class="soft-name">天正T20</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">天正T20 V10.0</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">天正T20 V9.0</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类6：视频音频 ========== -->
-        <section class="category-block" id="cate-video">
-            <div class="content-card">
-                <h2 class="category-title">视频音频</h2>
-                <p class="category-desc">剪辑、调色、音乐制作软件</p>
-                <div class="soft-grid">
-                    <!-- 达芬奇 -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#e6007e;">达</div>
-                                <span class="soft-name">达芬奇 DaVinci</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">达芬奇 18.5</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">达芬奇 17.x</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cubase -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#673ab7;">C</div>
-                                <span class="soft-name">Cubase</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">Cubase 13</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">Cubase 12</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== 分类7：数据分析 ========== -->
-        <section class="category-block" id="cate-data">
-            <div class="content-card">
-                <h2 class="category-title">数据分析</h2>
-                <p class="category-desc">数学计算、统计分析、可视化软件</p>
-                <div class="soft-grid">
-                    <!-- MATLAB -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#c9422a;">M</div>
-                                <span class="soft-name">MATLAB</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">MATLAB R2024a</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">MATLAB R2023b</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- SPSS -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon" style="background:#1677ff;">S</div>
-                                <span class="soft-name">SPSS</span>
-                            </div>
-                            <span class="arrow">▼</span>
-                        </div>
-                        <div class="soft-versions">
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#1234">
-                                <span class="version-name">SPSS 27</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                            <div class="version-item" data-pan="百度网盘#https://pan.baidu.com/xxx#5678">
-                                <span class="version-name">SPSS 26</span>
-                                <button class="version-btn">下载</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Origin -->
-                    <div class="soft-item">
-                        <div class="soft-header">
-                            <div class="soft-left">
-                                <div class="soft-icon"
+/* ========== 【1号区：样式配置区 CSS】结束 ========== */
