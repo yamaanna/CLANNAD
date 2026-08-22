@@ -1443,30 +1443,26 @@ body {
 function updateNavHighlight() {
     if (!sidebar || categoryBlocks.length === 0) return;
 
-    const viewportOffset = 120;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollBottom = scrollTop + window.innerHeight;
-    const pageBottom = document.documentElement.scrollHeight;
+    // 判定线位置：距离视口顶部100px，和顶部固定标题栏高度对齐
+    const viewLine = 100;
+    let activeIndex = 0;
 
-    let currentIndex = 0;
+    // 遍历所有区块，找到被判定线穿过的那一个
+    categoryBlocks.forEach((block, index) => {
+        const rect = block.getBoundingClientRect();
+        // 区块顶部在判定线上方，且区块底部在判定线下方
+        // 说明判定线落在当前区块范围内
+        if (rect.top <= viewLine && rect.bottom > viewLine) {
+            activeIndex = index;
+        }
+    });
 
-    // 触底判定：距离底部小于100px时，直接高亮最后一项
-    if (pageBottom - scrollBottom < 100) {
-        currentIndex = categoryBlocks.length - 1;
-    } else {
-        // 正常滚动时按位置判断
-        categoryBlocks.forEach((block, index) => {
-            const rect = block.getBoundingClientRect();
-            if (rect.top <= viewportOffset) {
-                currentIndex = index;
-            }
-        });
-    }
-
+    // 统一更新导航高亮
     navItems.forEach((item, index) => {
-        item.classList.toggle(config.navActiveClass, index === currentIndex);
+        item.classList.toggle(config.navActiveClass, index === activeIndex);
     });
 }
+
 
     /* ---------- 3-5 导航点击跳转 ---------- */
     function initNavClick() {
