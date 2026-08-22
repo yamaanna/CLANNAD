@@ -104,6 +104,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
+    align-items: start; /* 新增这一行：每个卡片高度独立，顶部对齐 */
 }
 .soft-item {
     border: 1px solid #e8e8e8;
@@ -1442,23 +1443,31 @@ body {
 function updateNavHighlight() {
     if (!sidebar || categoryBlocks.length === 0) return;
 
-    // 记录当前在视口内最靠上的区块索引
-    let currentIndex = 0;
-    const viewportOffset = 120; // 匹配顶部固定栏高度，微调更准
+    const viewportOffset = 120;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollBottom = scrollTop + window.innerHeight;
+    const pageBottom = document.documentElement.scrollHeight;
 
-    categoryBlocks.forEach((block, index) => {
-        // 获取元素相对于视口的实时顶部距离
-        const rect = block.getBoundingClientRect();
-        // 元素顶部进入视口上方偏移位置时，判定为当前区块
-        if (rect.top <= viewportOffset) {
-            currentIndex = index;
-        }
-    });
+    let currentIndex = 0;
+
+    // 触底判定：距离底部小于100px时，直接高亮最后一项
+    if (pageBottom - scrollBottom < 100) {
+        currentIndex = categoryBlocks.length - 1;
+    } else {
+        // 正常滚动时按位置判断
+        categoryBlocks.forEach((block, index) => {
+            const rect = block.getBoundingClientRect();
+            if (rect.top <= viewportOffset) {
+                currentIndex = index;
+            }
+        });
+    }
 
     navItems.forEach((item, index) => {
         item.classList.toggle(config.navActiveClass, index === currentIndex);
     });
 }
+
     /* ---------- 3-5 导航点击跳转 ---------- */
     function initNavClick() {
         navItems.forEach(item => {
