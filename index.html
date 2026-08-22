@@ -1,8 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
      <meta charset="UTF-8">
      <title>向日葵软件库</title>
+     
+     <style>
 /* ========== 【1号区：样式配置区 CSS】开始 ========== */
-<style>
+
 /* ---------- 1-1 全局基础样式 ---------- */
 * {
     margin: 0;
@@ -318,10 +322,11 @@ body {
         grid-template-columns: 1fr;
     }
 }
-<style>
-    </head>
-/* ========== 【1号区：样式配置区 CSS】结束 ========== */
 
+/* ========== 【1号区：样式配置区 CSS】结束 ========== */
+</style>
+    </head>
+     <body>
 
 
 
@@ -1393,34 +1398,38 @@ body {
 
     // 打开弹窗
     function openModal(title, panListData) {
-        if (!modalMask || !panList) return;
+    if (!modalMask || !panList) return;
+    document.querySelector(".modal-title").textContent = title || "下载链接";
 
-        document.querySelector(".modal-title").textContent = title || "下载链接";
+    panList.innerHTML = "";
+    // 新增：创建横向排列的容器
+    const panRow = document.createElement("div");
+    panRow.className = "pan-row";
 
-        panList.innerHTML = "";
+    panListData.forEach(pan => {
+        const panItem = document.createElement("div");
+        panItem.className = "pan-item";
 
-        panListData.forEach(pan => {
-            const panItem = document.createElement("div");
-            panItem.className = "pan-item";
+        panItem.innerHTML = `
+            <div class="pan-icon" style="background:#1677ff;">${pan.name.charAt(0)}</div>
+            <div class="pan-name">${pan.name}</div>
+            <div class="pan-code">提取码：${pan.code}</div>
+        `;
 
-            panItem.innerHTML = `
-                <div class="pan-icon" style="background:#1677ff;">${pan.name.charAt(0)}</div>
-                <div class="pan-name">${pan.name}</div>
-                <div class="pan-code">提取码：${pan.code}</div>
-            `;
+        if (pan.url) {
+            panItem.addEventListener("click", () => {
+                window.open(pan.url, "_blank");
+            });
+        }
 
-            if (pan.url) {
-                panItem.addEventListener("click", () => {
-                    window.open(pan.url, "_blank");
-                });
-            }
+        panRow.appendChild(panItem); // 放进横向容器
+    });
 
-            panList.appendChild(panItem);
-        });
+    panList.appendChild(panRow); // 再把容器放进弹窗
+    modalMask.classList.add(config.modalShowClass);
+    document.body.style.overflow = "hidden";
+}
 
-        modalMask.classList.add(config.modalShowClass);
-        document.body.style.overflow = "hidden";
-    }
 
     // 关闭弹窗
     function closeModal() {
